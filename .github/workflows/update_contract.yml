@@ -1,0 +1,28 @@
+name: Run Databricks notebook on contract change
+
+on:
+  push:
+    # trigger only when this exact file is modified by a push
+    paths:
+      - datacontracts/orders/datacontract.uc2.yaml
+    branches:
+      - main
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Install Databricks CLI (official action)
+      - uses: databricks/setup-cli@v0.9.0      # or @main if you prefer
+
+      - name: Trigger existing Databricks job
+        env:
+          # Set these secrets in your GitHub repo settings
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}   # e.g. https://<workspace>.cloud.databricks.com
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }} # PAT or SP token with Jobs:Run permission
+        run: |
+          # Define JOB_ID as an Actions variable (Repository → Settings → Variables)
+          databricks jobs run-now \
+            --job-id "${{ vars.DATABRICKS_JOB_ID }}"
