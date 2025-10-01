@@ -30,11 +30,11 @@ models:
     # Keep only two simple, Spark/Databricks-safe checks
     quality:
       - type: sql
-        description: Row count should be > 1.
+        description: Row count should be > 2.
         query: |
           SELECT COUNT(*) AS row_count
           FROM orders_raw
-        mustBeGreaterThan: 1
+        mustBeGreaterThan: 2
 
       - type: sql
         description: p95(order_total) should be between €10 and €499 (in cents).
