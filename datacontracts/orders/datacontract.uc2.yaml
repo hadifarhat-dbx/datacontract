@@ -11,7 +11,7 @@ servers:
     schema: orders
 
 models:
-  orders_raw:                # ← matches your table/view name
+  orders_raw:                # ← matches your table/view name 
     type: table
     description: One record per order.
     fields:
