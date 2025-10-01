@@ -9,16 +9,18 @@ on:
 
 jobs:
   run-notebook:
-    runs-on: ubuntu-latest
+    runs-on:
+      group: databricks-field-eng-protected-runner-group
+      labels: [ "linux-ubuntu-latest" ]
     steps:
       - uses: actions/checkout@v4
 
-      # Install Databricks CLI (official action)
-      - uses: databricks/setup-cli@main
+      # Install Databricks CLI (pin to stable v1)
+      - uses: databricks/setup-cli@v1
 
       - name: Trigger existing Databricks job
         run: |
           databricks jobs run-now "${{ vars.DATABRICKS_JOB_ID }}" --no-wait
         env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}   # e.g. https://<workspace>.cloud.databricks.com
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }} 
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }} # PAT or SP token with permission to run the job
