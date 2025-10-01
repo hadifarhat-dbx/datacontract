@@ -18,10 +18,8 @@ jobs:
       - uses: databricks/setup-cli@main
 
       - name: Trigger existing Databricks job
+        run: | databricks jobs run-now ${{ vars.DATABRICKS_JOB_ID }} --no-wait
         env:
           # Set these secrets in your GitHub repo settings
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}   # e.g. https://<workspace>.cloud.databricks.com
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }} # PAT or SP token with Jobs:Run permission
-        run: |
-          # Define JOB_ID as an Actions variable (Repository → Settings → Variables)
-          databricks jobs run-now audit_contract
