@@ -24,5 +24,4 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }} # PAT or SP token with Jobs:Run permission
         run: |
           # Define JOB_ID as an Actions variable (Repository → Settings → Variables)
-          databricks jobs run-now \
-            --job-id "${{ vars.DATABRICKS_JOB_ID }}"
+          databricks jobs run-now audit_contract
