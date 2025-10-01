@@ -1,0 +1,33 @@
+dataContractSpecification: 1.2.1
+id: urn:datacontract:checkout:orders-latest
+info:
+  title: Orders Latest (Unity Catalog mode)
+  version: 1.0.0
+models:
+  orders:
+    type: table
+    fields:
+      order_id:
+        type: string
+        required: true
+        unique: true
+      order_timestamp:
+        type: timestamp
+        required: true
+      order_total:
+        type: number
+        required: true
+      customer_email_address:
+        type: string
+        required: true
+    quality:
+      row_count:
+        min: 1
+      freshness:
+        field: order_timestamp
+        max: 24h
+servers:
+  production:
+    type: databricks
+    catalog: YOUR_CATALOG
+    schema: YOUR_SCHEMA
